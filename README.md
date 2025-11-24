@@ -1,4 +1,3 @@
-<img width="770" height="527" alt="image" src="https://github.com/user-attachments/assets/3de965a2-4950-4114-9773-4b2e87f79f89" /># Projeto_Final_SOLID
 esse projeto foi desenvolvido em php seguindo as leis de SOLID, PSR-12 e SQLITE.
 
 Sobre o projeto : 
@@ -8,6 +7,8 @@ tarifas com base no veiculo e temmpo que o veiculo ficou estacionado e gerar um 
 
 Nesse projeto foi aplicado as boas praticas como SOLID,DRY, KISS, boas práticas de Clean Code ,Object
 Calisthenics ,PHP 8+, Composer e SQLite.
+
+<img width="770" height="527" alt="image" src="https://github.com/user-attachments/assets/3de965a2-4950-4114-9773-4b2e87f79f89" /># Projeto_Final_SOLID
 
 Como usar:
 
