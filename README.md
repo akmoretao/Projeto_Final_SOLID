@@ -1,27 +1,77 @@
-esse projeto foi desenvolvido em php seguindo as leis de SOLID, PSR-12 e SQLITE.
+# Projeto-Final-SOLID: Controle de Estacionamento Inteligente
 
-Sobre o projeto : 
+Este projeto é um sistema simples de controle de estacionamento, feito utilizando **PHP 8+**, **Composer** e **SQLite**.
 
-O Projeto foi desenvolvido com o intuito de ser um controle de estacionamento inteligente, onde ele tem a função de cadastrar entrada e saida de veiculo (Moto, carro, caminhão), calcular
-tarifas com base no veiculo e temmpo que o veiculo ficou estacionado e gerar um relatorio de faturamento e uso.
+## Nome - RA
+Ana Karla de Souza Moretão - 1986881
+Allan França Padovan - 1986140
+Lucas Gimenez - 1996567
 
-Nesse projeto foi aplicado as boas praticas como SOLID,DRY, KISS, boas práticas de Clean Code ,Object
-Calisthenics ,PHP 8+, Composer e SQLite.
+## Tecnologias e Pré-requisitos
 
-Como usar:
+* **PHP:** Versão 8.2 ou superior.
+* **Composer:** Com autoload PSR-4.
+* **XAMPP / Servidor Web Local:** Para servir a aplicação via `http://localhost/nomedapasta/public/`.
 
-Você precisa ter um aplicativo baixado chamado (XAMP), sem ele você não consiguira rodar o projeto, com ele baixado você deverá ir em:
+## Estrutura do Projeto (PSR-4 e Camadas)
 
-<img width="770" height="527" alt="image" src="https://github.com/user-attachments/assets/3de965a2-4950-4114-9773-4b2e87f79f89" />
+A organização segue o padrão de camadas e o autoloading `App\` via PSR-4:
+products-srp-demo/
+├─ composer.json
+├─ vendor/
+├─ src/
+│ ├─ Contracts/           # Interfaces (Contratos do Domínio)
+│ │ ├─ ProductRepository.php
+│ │ └─ ProductValidator.php
+│ ├─ Application/         # Camada de Orquestração (Regras de Uso)
+│ │ └─ ProductService.php  # Orquestra Validação e Persistência
+│ ├─ Domain/              # Camada de Regras de Negócio
+│ │ └─ SimpleProductValidator.php # Implementação da Validação
+│ └─ Infra/               # Camada de Infraestrutura (Detalhes técnicos)
+│   └─ FileProductRepository.php # Persistência em arquivo (único que toca no storage)
+├─ public/                # Camada de Apresentação (I/O e HTTP)
+│ ├─ index.php            # Formulário de Cadastro (POST para create.php)
+│ ├─ create.php           # Processa POST, chama o Service, lida com HTTP status
+│ └─ products.php         # Lista produtos (Somente leitura)
+└─ storage/
+  └─ products.txt       # Arquivo de persistência (JSON por linha)
 
-- Disco local
+  ## Instalação e Execução
 
-- Xamp : htdocs
+1.  **Clone ou Crie o Projeto:**
+    Coloque a pasta `products-srp-demo` na raiz do seu servidor web (Ex: `htdocs` no XAMPP).
 
-- procurar a pasta inserida no caso é (CONTROLE-ESTACIONAMENTO)
+2.  **Instale as Dependências (Composer):**
+    Abra o terminal na pasta raiz do projeto (`products-srp-demo/`) e execute:
+    ```
+    composer install
+    ```
 
-PASSO 2
+3.  **Acesse a Aplicação:**
+    A aplicação deve ser acessível via a pasta `public/`:
+    ```
+    http://localhost/products-srp-demo/public/
+    ```
 
--Com o navegador aberto e o XAMP aberto com o APACHE ligado você deverá escrever o seguinte:
+## Casos de Teste (Manuais)
 
--localhost/CONTROLE-ESTACIONAMENTO
+Para garantir que o SRP e as regras de negócio foram aplicados corretamente, siga os passos abaixo:
+
+| Caso de Teste | Entrada (index.php) | Fluxo Esperado | Resultado Esperado |
+| :---: | :---: | :---: | :---: |
+| **1. Cadastro Válido** | Nome: `Teclado Mecânico`, Preço: `120.50` | 1. `create.php` chama `Validator`. 2. `Validator` retorna `null`. 3. `Service` chama `Repo->save()`. 4. Redireciona para `products.php`. | **HTTP 201** e o produto aparece na listagem (`products.php`) com um ID (`id: 1`). |
+| **2. Nome Curto (Inválido)** | Nome: `T`, Preço: `50` | 1. `create.php` chama `Validator`. 2. `Validator` retorna `errors` (`name < 2`). 3. Redireciona para `index.php`. | **HTTP 422** e a página `index.php` (cadastro) deve indicar a falha na validação. |
+| **3. Preço Negativo (Inválido)** | Nome: `Mouse`, Preço: `-10` | 1. `create.php` chama `Validator`. 2. `Validator` retorna `errors` (`price < 0`). 3. Redireciona para `index.php`. | **HTTP 422** e a página `index.php` (cadastro) deve indicar a falha na validação. |
+| **4. Listagem Vazia** | Arquivo `storage/products.txt` está vazio. | `products.php` chama `Repo->findAll()`. | Página de listagem exibe: "Nenhum produto cadastrado." |
+| **5. Múltiplos Cadastros** | Cadastrar 3 itens válidos. | `Repo->getLastId()` deve garantir IDs sequenciais. | Listagem mostra 3 itens com IDs `1`, `2`, `3` (ou incrementais se já houverem dados). |
+
+## Critérios de Aceite Confirmados
+
+| Critério | Status | Observações |
+| :---: | :---: | :---: |
+| **Acesso via `public/`** | ✅ OK | A aplicação roda no diretório `http://localhost/products-srp-demo/public/`. |
+| **SRP: Service** | ✅ OK | `ProductService` apenas orquestra, não contém `echo`, I/O, ou regras de validação. |
+| **SRP: Repository** | ✅ OK | `FileProductRepository` é o único a ler/escrever em `storage/products.txt`. |
+| **SRP: Validator** | ✅ OK | `SimpleProductValidator` apenas implementa as regras de negócio de validação. |
+| **PSR-4 e Camadas** | ✅ OK | O projeto segue rigorosamente a estrutura `App\Application`, `App\Domain`, `App\Infra`. |
+| **Persistência** | ✅ OK | O arquivo `products.txt` armazena um JSON por linha. |
