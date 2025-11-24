@@ -11,6 +11,8 @@ Lucas Gimenez - 1996567
 
 * **PHP:** Versão 8.2 ou superior.
 * **Composer:** Com autoload PSR-4.
+* **Aplicação:**  PSR-12.
+
 * **XAMPP / Servidor Web Local:** Para servir a aplicação via `http://localhost/nomedapasta/public/`.
 
 ## Estrutura do Projeto (PSR-4 e Camadas)
