@@ -18,6 +18,7 @@ Lucas Gimenez - 1996567
 ## Estrutura do Projeto (PSR-4 e Camadas)
 
 A organização segue o padrão de camadas e o autoloading `App\` via PSR-4:
+```
 CONTROLE-ESTACIONAMENTO/
 ├─ composer.json
 ├─ vendor/
@@ -37,6 +38,7 @@ CONTROLE-ESTACIONAMENTO/
 │ └─ products.php         # Lista produtos (Somente leitura)
 └─ storage/
   └─ products.txt       # Arquivo de persistência (JSON por linha)
+```
 
   ## Instalação e Execução
 
