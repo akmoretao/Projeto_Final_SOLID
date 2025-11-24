@@ -12,8 +12,7 @@ Como usar:
 
 Você precisa ter um aplicativo baixado chamado (XAMP), sem ele você não consiguira rodar o projeto, com ele baixado você deverá ir em:
 
-<img width="770" height="527" alt="image" src="https://github.com/user-attachments/assets/3de965a2-4950-4114-9773-4b2e87f79f89" /># Projeto_Final_SOLID
-
+<img width="770" height="527" alt="image" src="https://github.com/user-attachments/assets/3de965a2-4950-4114-9773-4b2e87f79f89" />
 
 - Disco local
 
