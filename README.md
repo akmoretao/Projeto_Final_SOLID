@@ -16,7 +16,7 @@ Lucas Gimenez - 1996567
 ## Estrutura do Projeto (PSR-4 e Camadas)
 
 A organização segue o padrão de camadas e o autoloading `App\` via PSR-4:
-products-srp-demo/
+CONTROLE-ESTACIONAMENTO/
 ├─ composer.json
 ├─ vendor/
 ├─ src/
